@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CountryResponse } from './country.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ export class CountryService {
 
   constructor(private http: HttpClient) {}
 
-  getCountryInfo(countryCode: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}${countryCode}?format=json`);
+  getCountryInfo(countryCode: string): Observable<CountryResponse> {
+    const url = `${this.apiUrl}${countryCode}?format=json`;
+    return this.http.get<CountryResponse>(url);
   }
 }
