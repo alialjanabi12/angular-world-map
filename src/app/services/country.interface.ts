@@ -26,3 +26,12 @@ export interface CountryData {
   longitude: string;
   latitude: string;
 }
+
+export interface CountryMeta {
+  page: number | string;
+  pages: number | string;
+  per_page: number | string;
+  total: number | string;
+}
+
+export type CountryResponse = [meta: CountryMeta, countries: CountryData[]];
