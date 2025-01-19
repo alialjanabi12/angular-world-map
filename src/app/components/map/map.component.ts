@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CountryService } from '../../services/country.service';
+import { CountryData } from '../../services/country.interface';
 
 @Component({
   selector: 'app-map',
@@ -8,7 +9,7 @@ import { CountryService } from '../../services/country.service';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements OnInit {
-  countryData: any; // Property to hold country data
+  countryData?: CountryData; // Property to hold country data
   private readonly colors = [
     '#1B3A4B',
     '#3A5C6B',
@@ -49,14 +50,16 @@ export class MapComponent implements OnInit {
   }
 
   loadCountryData(countryCode: string): void {
-    this.countryService.getCountryInfo(countryCode).subscribe(
-      (data) => {
-        this.countryData = data[1][0];
-        console.log('Country data:', this.countryData);
+    this.countryService.getCountryInfo(countryCode).subscribe({
+      next: (response) => {
+        const [_, countries] = response;
+        const country = countries[0];
+        this.countryData = country;
+        console.log(this.countryData);
       },
-      (error) => {
-        console.error('Error loading country data:', error);
-      }
-    );
+      error: (error) => {
+        console.error('Error fetching country data:', error);
+      },
+    });
   }
 }
